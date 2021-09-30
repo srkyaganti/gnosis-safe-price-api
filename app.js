@@ -1,14 +1,16 @@
-var express = require('express');
-var logger = require('morgan');
+const express = require('express');
+const logger = require('morgan');
 
-var indexRouter = require('./routes/index');
+const indexRouter = require('./routes/index');
+const priceRouter = require('./routes/usd-price');
 
-var app = express();
+const app = express();
 
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.use('/', indexRouter);
+app.use('/price', priceRouter);
 
 module.exports = app;
