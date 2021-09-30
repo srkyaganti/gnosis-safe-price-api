@@ -11,6 +11,7 @@ const GNOSIS_SAFE_BASE_URL = 'https://safe-transaction.gnosis.io/api/v1/';
 
 const getCachedAddresses = async (addresses) => {
   
+  //change reject -> resolve({ address, false }) to prevent other data to be returned
   const promises = addresses.map(address => {
     return  new Promise((resolve, reject) => {
       existsAsync(address)
