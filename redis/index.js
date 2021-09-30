@@ -5,9 +5,8 @@ const { promisify } = require("bluebird");
 Promise.promisify
 
 module.exports = {
-    ...client,
-    getAsync: promisify(client.get).bind(client),
-    setAsync: promisify(client.set).bind(client),
-    keysAsync: promisify(client.keys).bind(client),
-    existsAsync: promisify(client.exists).bind(client),
-  };
+  ...client,
+  getAsync: promisify(client.get).bind(client),
+  setAsync: promisify(client.set).bind(client),
+  existsAsync: promisify(client.exists).bind(client),
+};

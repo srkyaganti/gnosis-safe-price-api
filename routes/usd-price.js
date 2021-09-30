@@ -3,18 +3,26 @@ const router = express.Router();
 
 const axios = require('axios').default;
 
-const { setAsync, getAsync, keysAsync, existsAsync } = require('../redis');
-
-const redis = require('redis');
-const redisClient = redis.createClient(process.env.REDIS_URL);
-
-const Promise = require("bluebird");
-Promise.promisify
-
+const { setAsync, getAsync, existsAsync } = require('../redis');
 
 const _ = require('lodash');
 
 const GNOSIS_SAFE_BASE_URL = 'https://safe-transaction.gnosis.io/api/v1/';
+
+const getCachedAddresses = async (addresses) => {
+  
+  const promises = addresses.map(address => {
+    return  new Promise((resolve, reject) => {
+      existsAsync(address)
+      .then(exists => resolve({address, exists}))
+      .catch(error => reject({address, error}))
+    })
+  });
+
+  const cacheStatuses = await Promise.all(promises);
+
+  return cacheStatuses.filter(cacheStatus => cacheStatus.exists).map(({ address }) => address);
+}
 
 const fetchPrices = async (addresses) => {
   const validatedAddresses = addresses || [];
@@ -48,7 +56,9 @@ router.post('/', async (req, res, next) => {
     res.status(404).send('addresses size should be b/w 1 & 100');
   }
 
-  const cachedAddresses = validatedAddresses.filter(address => redisClient.exists(address));
+  //should rewrite this filter to remove the correct once, now everything is returning true;
+  const cachedAddresses = await getCachedAddresses(validatedAddresses);
+  console.log(`cachedAddresses - ${cachedAddresses}`);
   const addressesToBeFetched = _.difference(validatedAddresses, cachedAddresses);
 
   const prices = await fetchPrices(addressesToBeFetched);
