@@ -15,14 +15,7 @@ const web3 = new Web3(new Web3.providers.WebsocketProvider('wss://mainnet.infura
 //     console.log('syncing', blockHeader);
 // });
 
-const logs = web3.eth.subscribe('logs', {
-    // address: [
-    //     "0xF1D8c2eED95D5fC2EaDe4E6Bb15a5969453E89a9",
-    //     "0x5e14ed9dCeE22ba758E8de482301028b261c4a14",
-    //     "0x89C51828427F70D77875C6747759fB17Ba10Ceb0",
-    //     "0xf26d1Bb347a59F6C283C53156519cC1B1ABacA51"
-    // ]
-}, (error, blockHeader) => {
+const logs = web3.eth.subscribe('logs', (error, blockHeader) => {
     if (error) return console.error(error);
 
     console.log('logs', blockHeader);

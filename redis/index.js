@@ -9,4 +9,5 @@ module.exports = {
   getAsync: promisify(client.get).bind(client),
   setAsync: promisify(client.set).bind(client),
   existsAsync: promisify(client.exists).bind(client),
+  delAsync: promisify(client.del).bind(client),
 };
