@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
+    "start-cache-invalidation-service": "node ./cache-invalidation-service/server.js",
     "dev": "nodemon ./bin/www"
   },
   "dependencies": {
@@ -15,7 +16,7 @@
     "lodash": "^4.17.21",
     "morgan": "~1.9.1",
     "redis": "^3.1.2",
-    "web3": "^1.5.3"
+    "web3": "^1.6.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.13"

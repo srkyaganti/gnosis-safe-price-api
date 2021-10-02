@@ -4,7 +4,23 @@ services:
     container_name: cache
     expose:
       - 6379
-  app:
+  cache-invalidation-service:
+    build: ./
+    volumes:
+      - ./:/var/www/app
+    ports:
+      - 4000:4000
+    environment:
+      - NODE_ENV=development
+      - PORT=4000
+      - REDIS_URL=redis://cache
+      - INFURA_WEBSOCKET_URL=wss://mainnet.infura.io/ws/v3/4e1a1225c8b64371b824946a2fac51a8
+    command:
+      sh -c 'npm i && npm run start-cache-invalidation-service'
+    depends_on:
+      - redis
+    restart: always
+  price-fetch-service:
     build: ./
     volumes:
       - ./:/var/www/app
@@ -14,7 +30,10 @@ services:
       - NODE_ENV=development
       - PORT=3000
       - REDIS_URL=redis://cache
+      - INFURA_WEBSOCKET_URL=wss://mainnet.infura.io/ws/v3/4e1a1225c8b64371b824946a2fac51a8
     command:
       sh -c 'npm i && npm run start'
     depends_on:
       - redis
+      - cache-invalidation-service
+    restart: always
