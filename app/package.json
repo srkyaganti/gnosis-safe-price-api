@@ -2,14 +2,13 @@
   "name": "gnosis-safe-price-api",
   "version": "0.0.0",
   "private": true,
+  "author": "Srikar Yaganti<srkyaganti@gmail.com>",
   "scripts": {
     "start": "node ./bin/www"
   },
   "dependencies": {
     "axios": "^0.21.4",
     "bluebird": "^3.7.2",
-    "debug": "~2.6.9",
-    "dotenv": "^10.0.0",
     "express": "~4.16.1",
     "lodash": "^4.17.21",
     "morgan": "~1.9.1",

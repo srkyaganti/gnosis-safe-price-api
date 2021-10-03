@@ -1,10 +1,5 @@
-// require('dotenv').config();
 const express = require("express");
 const logger = require("morgan");
-
-const invalidationModes = require("./constants/invalidation_modes");
-//TODO: integrate this on building log based cache invalidation strategy for each address
-const invalidationMode = process.env.INVALIDATION_MODE || invalidationModes.BLOCK_HEADERS;
 
 const { getCachedKeys } = require('./redis/helpers');
 const { getAsync, setAsync } = require('./redis');
