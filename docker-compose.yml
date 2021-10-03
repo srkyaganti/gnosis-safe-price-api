@@ -35,5 +35,5 @@ services:
       sh -c 'npm i && npm run start'
     depends_on:
       - redis
-      # - cache-invalidation-service
+      - cache-invalidation-service
     restart: always
