@@ -16,7 +16,7 @@ You should see the service start on local on port 3000(by default)
 ### Testing
 * via [Postman](https://www.postman.com/)
   * import the [collection](https://www.getpostman.com/collections/986c01618f3a6c09158a) 
-  * Use the `usd-price-fetch` API by passign the required addresses
+  * Use the `usd-price-fetch` API by passing the required addresses
 
 * via [cURL](https://curl.se/)
 ```
