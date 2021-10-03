@@ -17,6 +17,8 @@ const subscribeToBlockHeaders = (callback = defaultCallback) => {
     }
     
     newBlockHeadersSubscription = wSweb3Client.eth.subscribe('newBlockHeaders', callback);
+
+    return newBlockHeadersSubscription;
 }
 
 module.exports = subscribeToBlockHeaders;

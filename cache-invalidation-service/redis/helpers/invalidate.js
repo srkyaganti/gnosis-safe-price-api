@@ -1,4 +1,4 @@
-const { delAsync, flushdb } = require('../index');
+const { delAsync, client } = require('../index');
 
 const invalidateKey = async(key) => {
     await delAsync(key);
@@ -9,7 +9,7 @@ const invalidateKeys = async(keys) => {
 }
 
 const invalidateCache = () => {
-    flushdb((error, data) => {
+    client.flushdb((error, data) => {
         if (error) {
             console.error(error);
             return;

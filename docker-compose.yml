@@ -5,25 +5,25 @@ services:
     expose:
       - 6379
   cache-invalidation-service:
-    build: ./
+    build: 
+      context: ./
+      dockerfile: ./cache-invalidation-service/Dockerfile
     volumes:
-      - ./:/var/www/app
-    ports:
-      - 4000:4000
+      - ./cache-invalidation-service:/var/www/app
     environment:
       - NODE_ENV=development
-      - PORT=4000
       - REDIS_URL=redis://cache
       - INFURA_WEBSOCKET_URL=wss://mainnet.infura.io/ws/v3/4e1a1225c8b64371b824946a2fac51a8
     command:
-      sh -c 'npm i && npm run start-cache-invalidation-service'
+      sh -c 'npm i && npm run start'
     depends_on:
       - redis
-    restart: always
-  price-fetch-service:
-    build: ./
+  app:
+    build: 
+      context: ./
+      dockerfile: ./app/Dockerfile
     volumes:
-      - ./:/var/www/app
+      - ./app:/var/www/app
     ports:
       - 3000:3000
     environment:
@@ -35,5 +35,5 @@ services:
       sh -c 'npm i && npm run start'
     depends_on:
       - redis
-      - cache-invalidation-service
+      # - cache-invalidation-service
     restart: always
