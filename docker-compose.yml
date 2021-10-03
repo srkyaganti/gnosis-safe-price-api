@@ -13,7 +13,7 @@ services:
     environment:
       - NODE_ENV=development
       - REDIS_URL=redis://cache
-      - INFURA_WEBSOCKET_URL=wss://mainnet.infura.io/ws/v3/4e1a1225c8b64371b824946a2fac51a8
+      - INFURA_WEBSOCKET_URL=wss://mainnet.infura.io/ws/v3/${INFURA_KEY}
     command:
       sh -c 'npm i && npm run start'
     depends_on:
@@ -30,7 +30,7 @@ services:
       - NODE_ENV=development
       - PORT=3000
       - REDIS_URL=redis://cache
-      - INFURA_WEBSOCKET_URL=wss://mainnet.infura.io/ws/v3/4e1a1225c8b64371b824946a2fac51a8
+      - INFURA_WEBSOCKET_URL=wss://mainnet.infura.io/ws/v3/${INFURA_KEY}
     command:
       sh -c 'npm i && npm run start'
     depends_on:
