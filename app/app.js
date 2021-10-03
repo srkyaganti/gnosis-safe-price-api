@@ -19,7 +19,7 @@ app.get("/", (req, res, next) => {
 
 app.post("/price", async (req, res, next) => {
   const addresses = req.body.addresses || [];
-  if (addresses == []) {
+  if (addresses.length === 0) {
     res.status(400).send("addresses should not be empty");
   }
 
@@ -30,8 +30,6 @@ app.post("/price", async (req, res, next) => {
   }
 
   const cachedAddresses = await getCachedKeys(validatedAddresses);
-  console.log(`cachedAddresses - ${cachedAddresses}`);
-  
   const cacheMissedAddresses = _.difference(validatedAddresses, cachedAddresses);
 
   const prices = await fetchUsdPrices(cacheMissedAddresses);
@@ -46,14 +44,23 @@ app.post("/price", async (req, res, next) => {
     async (address) =>
       new Promise((resolve, reject) => {
         getAsync(address)
-          .then((response) => resolve({ address, data: JSON.parse(response) }))
-          .catch((error) => reject({ address, error }));
+          .then((response) => resolve({ address, success: true, data: JSON.parse(response) }))
+          .catch((error) => {
+            console.error(`Failed to get cached item for key ${address}`, error);
+            resolve({ address, success: false, error });
+          });
       })
   );
 
   const fetchedRedisData = await Promise.all(redisGetPromises);
 
-  res.send(fetchedRedisData);
+  const successfulItems = fetchedRedisData.filter(({ success }) => success);
+  const failedItems = fetchedRedisData.filter(({ success }) => !success);
+
+  res.json({
+    successfulItems,
+    failedItems
+  });
 });
 
 module.exports = app;
